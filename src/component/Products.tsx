@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { Card } from "@/component/ui/card"
 import { Button } from "./ui/button"
 import StarRating from "./StarRating"
+import Image from "next/image"
 import Link from "next/link"
 import { useCartStore } from "@/Store/cartStore"
 import { useRouter } from "next/navigation"
@@ -50,7 +51,7 @@ export default function Products() {
               className="relative bg-white rounded-xs overflow-hidden flex flex-col"
             >
               <Link href={`/products/${product.id}`} className="block">
-                <img
+                <Image
                   src={product.thumbnail}
                   alt={product.title}
                   className="object-cover hover:scale-110 transition"

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
 import StarRating from "@/component/StarRating"
 import { Button } from "@/component/ui/button"
 import { useCartStore } from "@/Store/cartStore"
@@ -80,7 +81,7 @@ export default function ProductPage() {
         <div className="flex flex-col items-center">
           <div className="flex gap-2 mb-4 overflow-x-auto">
             {product.images.map((img, index) => (
-              <img
+              <Image
                 key={index}
                 src={img}
                 alt={`product-image-${index}`}
