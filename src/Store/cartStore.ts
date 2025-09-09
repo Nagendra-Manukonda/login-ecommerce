@@ -6,8 +6,12 @@ interface Product {
   title: string
   price: number
   quantity?: number
-  [key: string]: any
-}
+  brand?: string
+  category?: string
+  description?: string
+  rating?: number
+  thumbnail?: string
+  discountPercentage?: number}
 
 interface CartState {
   items: Product[]
@@ -22,6 +26,7 @@ export const useCartStore = create<CartState>()(
   persist(
     (set) => ({
       items: [],
+
       addToCart: (product) =>
         set((state) => {
           const existing = state.items.find((item) => item.id === product.id)
@@ -29,35 +34,39 @@ export const useCartStore = create<CartState>()(
             return {
               items: state.items.map((item) =>
                 item.id === product.id
-                  ? { ...item, quantity: (item.quantity || 1) + 1 }
+                  ? { ...item, quantity: (item.quantity ?? 1) + 1 }
                   : item
               ),
             }
           }
           return { items: [...state.items, { ...product, quantity: 1 }] }
         }),
+
       removeFromCart: (id) =>
         set((state) => ({
           items: state.items.filter((item) => item.id !== id),
         })),
+
       clearCart: () => set({ items: [] }),
+
       increaseQuantity: (id) =>
         set((state) => ({
           items: state.items.map((item) =>
             item.id === id
-              ? { ...item, quantity: (item.quantity || 1) + 1 }
+              ? { ...item, quantity: (item.quantity ?? 1) + 1 }
               : item
           ),
         })),
+
       decreaseQuantity: (id) =>
         set((state) => ({
           items: state.items
             .map((item) =>
               item.id === id
-                ? { ...item, quantity: (item.quantity || 1) - 1 }
+                ? { ...item, quantity: (item.quantity ?? 1) - 1 }
                 : item
             )
-            .filter((item) => (item.quantity || 0) > 0),
+            .filter((item) => (item.quantity ?? 0) > 0),
         })),
     }),
     {
