@@ -171,7 +171,7 @@ export default function CartPage() {
           Total: ${totalPrice.toFixed(2)}
         </h2>
         <div className="flex gap-3">
-          <Button variant="outline" onClick={clearCart} className="cursor-pointer">
+          <Button variant="outline" onClick={clearCart} className="cursor-pointer bg-black text-white hover:bg-red-600 hover:text-white">
             Clear Cart
           </Button>
           <Button

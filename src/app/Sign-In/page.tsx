@@ -44,12 +44,12 @@ export default function LoginPage() {
     <div className="flex items-center justify-center min-h-screen bg-purple-800/10">
       <Card className="w-full max-w-md p-5 bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl shadow-xl">
         <CardHeader>
-          <CardTitle className="text-center text-2xl font-bold text-white">
-            Welcome Back
+          <CardTitle className="text-center text-2xl font-bold text-black mb-1.5">
+            Welcome  to Login
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <Label htmlFor="username" className="text-white">
+          <Label htmlFor="username" className="text-gray-800">
             Username
           </Label>
           <Input
@@ -61,7 +61,7 @@ export default function LoginPage() {
             className="bg-white/30 border-white/40 text-white placeholder-white/70 focus:ring-violet-400"
           />
 
-          <Label htmlFor="password" className="text-white">
+          <Label htmlFor="password" className="text-gray-800">
             Password
           </Label>
           <div className="relative">
@@ -71,12 +71,12 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
-              className="bg-white/30 border-white/40 text-white placeholder-white/70 focus:ring-violet-400 pr-10"
+              className="bg-white/30 border-white/40 text-gray-800 placeholder-white/90 focus:ring-violet-400 pr-10"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-2 flex items-center text-white/70 hover:text-white"
+              className="absolute inset-y-0 right-2 flex items-center text-gray-900 hover:text-gray-700 "
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>

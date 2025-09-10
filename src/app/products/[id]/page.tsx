@@ -77,52 +77,50 @@ export default function ProductPage() {
       </Link>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white shadow-lg rounded-xl p-6">
-            <div className="md:sticky md:top-6 self-start h-fit">
-        <div className="flex flex-col items-center">
-          <div className="flex gap-2 mb-4 overflow-x-auto">
-            {product.images.map((img, index) => (
-             <Image
-  key={index}
-  src={img}
-  alt={`product-image-${index}`}
-  width={320}
-  height={400}
-  className="object-cover border rounded-md cursor-pointer hover:scale-100 transition"
-/>
+        <div className="md:sticky md:top-6 self-start h-fit">
+          <div className="flex flex-col items-center">
+            <div className="flex gap-2 mb-4 overflow-x-auto">
+              {product.images.map((img, index) => (
+                <Image
+                  key={index}
+                  src={img}
+                  alt={`product-image-${index}`}
+                  width={320}
+                  height={400}
+                  className="object-cover border rounded-md cursor-pointer hover:scale-100 transition"
+                />
+              ))}
+            </div>
+            <div className="flex gap-4 w-full">
+              {cartItem ? (
+                <Button
+                  className="bg-blue-500 hover:bg-blue-600 rounded text-white w-1/2 py-6 text-lg font-semibold"
+                  onClick={() => router.push("/cart")}
+                >
+                  Go to Cart
+                </Button>
+              ) : (
+                <Button
+                  className="bg-yellow-400 hover:bg-yellow-500 rounded text-white w-64 py-6 text-lg font-semibold"
+                  onClick={() => {
+                    addToCart(product)
+                    router.push("/cart")
+                  }}
+                >
+                  Add to Cart
+                </Button>
+              )}
 
-            ))}
-          </div>
-
-          <div className="flex gap-4 w-full">
-            {cartItem ? (
               <Button
-                className="bg-blue-500 hover:bg-blue-600 rounded text-white w-1/2 py-6 text-lg font-semibold"
-                onClick={() => router.push("/cart")}
-              >
-                Go to Cart
-              </Button>
-            ) : (
-              <Button
-                className="bg-yellow-400 hover:bg-yellow-500 rounded text-white w-64 py-6 text-lg font-semibold"
+                className="bg-red-500/90 hover:bg-red-600 rounded text-white w-64 py-6 text-lg font-semibold"
                 onClick={() => {
-                  addToCart(product)
+                  if (!cartItem) addToCart(product)
                   router.push("/cart")
                 }}
               >
-                Add to Cart
+                Buy Now
               </Button>
-            )}
-
-            <Button
-              className="bg-red-500/90 hover:bg-red-600 rounded text-white w-64 py-6 text-lg font-semibold"
-              onClick={() => {
-                if (!cartItem) addToCart(product)
-                router.push("/cart")
-              }}
-            >
-              Buy Now
-            </Button>
-          </div>
+            </div>
           </div>
         </div>
 

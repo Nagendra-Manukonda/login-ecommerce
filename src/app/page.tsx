@@ -23,7 +23,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-300">
-      <MainHeader />
+      <MainHeader onSearch={() => {}} />
       <main className="p-6">
         <Products />
       </main>
