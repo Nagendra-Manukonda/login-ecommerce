@@ -62,7 +62,7 @@ export default function ProductPage() {
       .catch(() => setLoading(false))
   }, [id])
 
-  if (loading) return <p className="text-gray-600">Loading...</p>
+  if (loading) return <p className="text-gray-600 pt-10">Loading...</p>
   if (!product) return <p className="text-red-500">Product not found</p>
 
   const cartItem = items.find((item) => item.id === product.id)
