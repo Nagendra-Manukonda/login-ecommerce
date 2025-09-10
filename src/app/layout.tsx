@@ -28,7 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <MainHeader />
+        <MainHeader onSearch={() => {}} />
         <main className="pt-12 max-h-full">{children}</main>
       
       </body>
