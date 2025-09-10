@@ -81,12 +81,15 @@ export default function ProductPage() {
         <div className="flex flex-col items-center">
           <div className="flex gap-2 mb-4 overflow-x-auto">
             {product.images.map((img, index) => (
-              <Image
-                key={index}
-                src={img}
-                alt={`product-image-${index}`}
-                className="w-80 h-100 object-cover border rounded-md cursor-pointer hover:scale-100 transition"
-              />
+             <Image
+  key={index}
+  src={img}
+  alt={`product-image-${index}`}
+  width={320}
+  height={400}
+  className="object-cover border rounded-md cursor-pointer hover:scale-100 transition"
+/>
+
             ))}
           </div>
 

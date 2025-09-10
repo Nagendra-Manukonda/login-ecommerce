@@ -54,6 +54,8 @@ export default function Products() {
                 <Image
                   src={product.thumbnail}
                   alt={product.title}
+                  width={280}
+                  height={280}
                   className="object-cover hover:scale-110 transition"
                 />
                 <div className="absolute top-64 right-2 text-black rounded-md text-sm flex items-center gap-2 px-2 py-1">
