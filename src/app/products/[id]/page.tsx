@@ -94,14 +94,14 @@ export default function ProductPage() {
             <div className="flex gap-4 w-full">
               {cartItem ? (
                 <Button
-                  className="bg-blue-500 hover:bg-blue-600 rounded text-white w-1/2 py-6 text-lg font-semibold"
+                  className="bg-blue-500 hover:bg-blue-600 rounded text-white w-1/2 lg:w-64 lg:py-6 text-lg font-semibold"
                   onClick={() => router.push("/cart")}
                 >
                   Go to Cart
                 </Button>
               ) : (
                 <Button
-                  className="bg-yellow-400 hover:bg-yellow-500 rounded text-white w-64 py-6 text-lg font-semibold"
+                  className="bg-yellow-400 hover:bg-yellow-500 rounded text-white w-1/2 lg:w-64 lg:py-6 text-lg font-semibold"
                   onClick={() => {
                     addToCart(product)
                     router.push("/cart")
@@ -112,7 +112,7 @@ export default function ProductPage() {
               )}
 
               <Button
-                className="bg-red-500/90 hover:bg-red-600 rounded text-white w-64 py-6 text-lg font-semibold"
+                className="bg-red-500/90 hover:bg-red-600 rounded text-white w-1/2 lg:w-64 lg:py-6 text-lg font-semibold"
                 onClick={() => {
                   if (!cartItem) addToCart(product)
                   router.push("/cart")
