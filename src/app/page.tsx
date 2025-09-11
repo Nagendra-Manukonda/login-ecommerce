@@ -1,5 +1,4 @@
 "use client"
-
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import MainHeader from "@/component/MainHeader"
@@ -23,8 +22,8 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-300">
-      <MainHeader onSearch={() => {}} />
-      <main className="p-6">
+      <MainHeader />
+      <main className="p-3">
         <Products />
       </main>
     </div>
