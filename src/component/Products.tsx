@@ -205,10 +205,18 @@ export default function Products() {
         })}
       </div>
 
-      <div ref={observerRef} className="h-10 flex justify-center items-center mt-5">
-        {loading && <p className="text-gray-500">Loading...</p>}
-        {!hasMore && !loading && <p className="text-gray-400">No more products</p>}
-      </div>
+      <div ref={observerRef} className="h-12 flex justify-center items-center mt-5">
+  {loading && (
+    <div className="flex items-center gap-2 text-gray-600">
+  <div className="w-7 h-7 border-5 border-gray-300 border-t-gray-600 rounded-full animate-spin"></div>
+      <span>Loading...</span>
+    </div>
+  )}
+  {!hasMore && !loading && (
+    <p className="text-gray-400">No more products</p>
+  )}
+</div>
+
     </div>
   )
 }
