@@ -1,13 +1,12 @@
 "use client"
 
-import { useEffect, useState, useRef, useCallback } from "react"
+import { useEffect, useState, useRef } from "react"
 import { Card } from "./ui/card"
 import { Button } from "./ui/button"
 import StarRating from "./StarRating"
 import Image from "next/image"
 import { useCartStore } from "@/Store/cartStore"
 import Link from "next/link"
-import MainHeader from "./MainHeader"
 
 interface Product {
   id: number
@@ -23,49 +22,60 @@ interface Product {
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([])
   const [page, setPage] = useState(0)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [hasMore, setHasMore] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
   const [sortOrder, setSortOrder] = useState<"asc" | "desc" | "none">("none")
-  const debounceRef = useRef<NodeJS.Timeout | null>(null)
-  const observerRef = useRef<HTMLDivElement | null>(null)
 
+  const observerRef = useRef<HTMLDivElement | null>(null)
+  const debounceRef = useRef<NodeJS.Timeout | null>(null)
+
+  const isFetchingRef = useRef(false) 
   const { items, addToCart } = useCartStore()
 
-  const fetchProducts = useCallback(async () => {
-    if (!hasMore) return
+  const fetchProducts = async (reset = false, newPage = 0, query = searchQuery) => {
+    if (isFetchingRef.current) return
+    if (!hasMore && !reset) return
+
+    isFetchingRef.current = true
     setLoading(true)
+
     try {
-      const res = await fetch(
-        `https://dummyjson.com/products?limit=12&skip=${page * 12}`
-      )
+      const url =
+        query.trim().length >= 2
+          ? `https://dummyjson.com/products/search?q=${encodeURIComponent(
+              query
+            )}&limit=12&skip=${newPage * 12}`
+          : `https://dummyjson.com/products?limit=12&skip=${newPage * 12}`
+
+      const res = await fetch(url, { cache: "no-store" })
       const data = await res.json()
-      if (data.products.length === 0) {
-        setHasMore(false)
-      } else {
-        setProducts((prev) => {
-          const newProducts = data.products.filter(
-            (p: Product) => !prev.some((item) => item.id === p.id)
-          )
-          return [...prev, ...newProducts]
-        })
-      }
+      const newProducts: Product[] = data.products || []
+
+      setProducts((prev) => {
+        if (reset) return newProducts
+        const unique = newProducts.filter((p) => !prev.some((x) => x.id === p.id))
+        return [...prev, ...unique]
+      })
+
+      setHasMore(newProducts.length > 0)
     } catch (err) {
       console.error("Fetch error:", err)
     } finally {
+      isFetchingRef.current = false
       setLoading(false)
     }
-  }, [page, hasMore])
+  }
 
   useEffect(() => {
-    fetchProducts()
-  }, [page, fetchProducts])
+    fetchProducts(page === 0, page, searchQuery)
+  }, [page])
 
   useEffect(() => {
     if (!observerRef.current) return
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !loading) {
+        if (entries[0].isIntersecting && !loading && hasMore) {
           setPage((prev) => prev + 1)
         }
       },
@@ -73,37 +83,45 @@ export default function Products() {
     )
     observer.observe(observerRef.current)
     return () => observer.disconnect()
-  }, [loading])
+  }, [loading, hasMore])
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setSearchQuery(value)
-
+  useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current)
+
     debounceRef.current = setTimeout(() => {
       setPage(0)
-      setProducts([])
       setHasMore(true)
-    }, 500)
-  }
+      setProducts([])
+      fetchProducts(true, 0, searchQuery)
+    }, 800)
+
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current)
+    }
+  }, [searchQuery])
 
   const handleSortChange = (order: "asc" | "desc" | "none") => {
-    setSortOrder(order)
-    if (order === "none") return
-    setProducts((prev) =>
-      [...prev].sort((a, b) =>
-        order === "asc" ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title)
-      )
-    )
+  setSortOrder(order)
+
+  if (order === "none") {
+    setPage(0)
+    setHasMore(true)
+    fetchProducts(true, 0) 
+    return
   }
 
-  const filteredProducts = products.filter((p) =>
-    p.title.toLowerCase().includes(searchQuery.toLowerCase())
+  setProducts((prev) =>
+    [...prev].sort((a, b) =>
+      order === "asc"
+        ? a.title.localeCompare(b.title)
+        : b.title.localeCompare(a.title)
+    )
   )
+}
+
 
   return (
     <div className="pt-5">
-      <MainHeader />
 
       <h2 className="flex justify-center text-4xl items-center tracking-wider font-bold text-gray-800 mt-6">
         Products
@@ -114,8 +132,8 @@ export default function Products() {
           type="text"
           placeholder="Search products..."
           value={searchQuery}
-          onChange={handleSearch}
-          className="border border-gray-300 rounded-md bg-amber-50 px-3 py-2 w-full sm:w-1/2 text-sm focus:outline-none focus:ring-2 focus:ring-stone-500"
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="border border-gray-300 rounded-md bg-amber-50 px-3 py-2 lg:w-1/2 sm:w-1/2 text-sm focus:outline-none focus:ring-2 focus:ring-stone-500"
         />
 
         <select
@@ -131,14 +149,10 @@ export default function Products() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-3 mt-3">
-        {filteredProducts.map((product, index) => {
+        {products.map((product) => {
           const ifInCart = items.some((item) => item.id === product.id)
           return (
-            <Link
-              key={`${product.id}-${index}`}
-              href={`/products/${product.id}`}
-              passHref
-            >
+            <Link key={product.id} href={`/products/${product.id}`} passHref>
               <Card className="relative bg-white rounded-xs cursor-pointer overflow-hidden flex flex-col">
                 <div className="relative">
                   <Image
@@ -193,7 +207,7 @@ export default function Products() {
 
       <div ref={observerRef} className="h-10 flex justify-center items-center mt-5">
         {loading && <p className="text-gray-500">Loading...</p>}
-        {!hasMore && <p className="text-gray-400">No more products</p>}
+        {!hasMore && !loading && <p className="text-gray-400">No more products</p>}
       </div>
     </div>
   )

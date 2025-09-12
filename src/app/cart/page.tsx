@@ -170,17 +170,17 @@ export default function CartPage() {
         <h2 className="text-xl font-bold text-gray-800">
           Total: ${totalPrice.toFixed(2)}
         </h2>
-        <div className="flex gap-3">
-          <Button variant="outline" onClick={clearCart} className="cursor-pointer bg-black text-white hover:bg-red-600 hover:text-white">
+        <div className="flex gap-3 ml-6 ">
+          <Button variant="outline" onClick={clearCart} className="cursor-pointer  bg-black text-white w-[27%]  lg:w-fit hover:bg-red-600 hover:text-white">
             Clear Cart
           </Button>
           <Button
-            className="bg-blue-600 hover:bg-blue-700 cursor-pointer text-white"
+            className="bg-blue-600 hover:bg-blue-700 w-[27%] lg:w-fit cursor-pointer text-white"
             onClick={() => router.push("/")}
           >
             Add More
           </Button>
-          <Button className="bg-green-600 hover:bg-green-700 cursor-pointer text-white">
+          <Button className="bg-green-600 hover:bg-green-700 w-[27%] lg:w-fit cursor-pointer text-white">
             Checkout
           </Button>
         </div>
