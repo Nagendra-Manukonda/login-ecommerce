@@ -127,7 +127,7 @@ export default function Products() {
         Products
       </h2>
 
-      <div className="flex flex-row sm:flex-row justify-between items-center gap-3 px-4 mt-5">
+      <div className="flex flex-row sm:flex-row justify-around items-center gap-3 px-4 mt-5">
         <input
           type="text"
           placeholder="Search products..."

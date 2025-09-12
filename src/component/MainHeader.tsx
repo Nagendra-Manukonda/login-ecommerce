@@ -48,7 +48,9 @@ export default function MainHeader({ onResults }: MainHeaderProps) {
   const handleLogout = () => {
     deleteCookie("user")
     setUser(null)
+    setTimeout(() => {
     router.replace("/Sign-In")
+  }, 0)
   }
 
   return (

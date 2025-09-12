@@ -15,7 +15,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
-  const [checkingLogin, setCheckingLogin] = useState(true) 
+  const [checkingLogin, setCheckingLogin] = useState(true)
 
   useEffect(() => {
     const user = getCookie("user")
@@ -39,7 +39,10 @@ export default function LoginPage() {
 
       if (res.ok) {
         setCookie("user", JSON.stringify(data), 7)
-        router.replace("/") 
+
+        setTimeout(() => {
+          router.replace("/")
+        }, 0)
       } else {
         alert("Login failed: " + data.message)
       }
@@ -52,8 +55,8 @@ export default function LoginPage() {
 
   if (checkingLogin) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        {/* <p className="text-gray-500 text-lg">Checking login status...</p> */}
+      <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <p className="text-gray-500">Checking login status...</p>
       </div>
     )
   }
@@ -76,7 +79,7 @@ export default function LoginPage() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Enter your username"
-            className="bg-white/30 border-white/40 text-white placeholder-white/70 focus:ring-violet-400"
+            className="bg-white/30 border-white/40 text-black placeholder-gray-500 focus:ring-violet-400"
           />
 
           <Label htmlFor="password" className="text-gray-800">
@@ -89,12 +92,12 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
-              className="bg-white/30 border-white/40 text-gray-800 placeholder-white/90 focus:ring-violet-400 pr-10"
+              className="bg-white/30 border-white/40 text-black placeholder-gray-500 focus:ring-violet-400 pr-10"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-2 flex items-center text-gray-900 hover:text-gray-700"
+              className="absolute inset-y-0 right-2 flex items-center text-gray-700 hover:text-black"
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
