@@ -7,6 +7,7 @@ import StarRating from "./StarRating"
 import Image from "next/image"
 import { useCartStore } from "@/Store/cartStore"
 import Link from "next/link"
+import { ArrowUp } from "lucide-react" 
 
 interface Product {
   id: number
@@ -28,10 +29,10 @@ export default function Products() {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc" | "none">("none")
   const [categories, setCategories] = useState<string[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>("")
+  const [showScrollTop, setShowScrollTop] = useState(false)
 
   const observerRef = useRef<HTMLDivElement | null>(null)
   const debounceRef = useRef<NodeJS.Timeout | null>(null)
-
   const isFetchingRef = useRef(false)
   const { items, addToCart } = useCartStore()
 
@@ -139,8 +140,23 @@ export default function Products() {
     )
   }
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + window.innerHeight
+      const bottomPosition = document.body.scrollHeight
+      setShowScrollTop(scrollPosition > bottomPosition - 300)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
   return (
-    <div className="pt-5">
+    <div className="pt-5 relative">
       <h2 className="flex justify-center text-4xl items-center tracking-wider font-bold text-gray-800 mt-6">
         Products
       </h2>
@@ -154,7 +170,6 @@ export default function Products() {
             onChange={(e) => setSearchQuery(e.target.value)}
             className="border border-gray-300 rounded-md bg-amber-50 px-3 py-2 w-full sm:w-1/2 text-sm focus:outline-none focus:ring-2 focus:ring-stone-500"
           />
-
           <select
             onChange={(e) =>
               handleSortChange(e.target.value as "asc" | "desc" | "none")
@@ -199,7 +214,7 @@ export default function Products() {
                     height={280}
                     className="object-cover hover:scale-110 transition"
                   />
-                  <div className="absolute bottom- right-2 text-black rounded-md text-sm flex items-center gap-2 px-2 py-1">
+                  <div className="absolute bottom-2 right-2 text-black rounded-md text-sm flex items-center gap-2 px-2 py-1">
                     <span className="font-bold">${product.price}</span>
                     <span className="text-red-500 font-semibold text-xs">
                       ({product.discountPercentage}% OFF)
@@ -207,7 +222,7 @@ export default function Products() {
                   </div>
                 </div>
                 <div className="p-4 flex flex-col flex-grow">
-                  <h3 className="text-md font-semibold text-gray-800 m-1.5">
+                  <h3 className="text-md font-semibold text-gray-800 m-1.5 line-clamp-1">
                     {product.title}
                   </h3>
                   <p className="text-gray-500 text-sm line-clamp-2 m-1.5">
@@ -253,6 +268,15 @@ export default function Products() {
           <p className="text-gray-400">No more products</p>
         )}
       </div>
+
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-5 right-5 p-3 bg-violet-500 hover:bg-violet-600 rounded-full text-white shadow-lg transition"
+        >
+          <ArrowUp size={24} />
+        </button>
+      )}
     </div>
   )
 }
