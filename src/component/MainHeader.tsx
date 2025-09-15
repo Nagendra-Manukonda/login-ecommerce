@@ -69,13 +69,14 @@ export default function MainHeader({ onResults }: MainHeaderProps) {
               onClick={() => router.push("/cart")}
               className="relative flex items-center justify-center cursor-pointer bg-green-500 px-4 py-2 rounded text-white hover:bg-green-600 transition"
             >
-              <ShoppingCart className="w-4 h-4 mr-2 text-white" />
+              <ShoppingCart className="w-4 h-4 text-white" />
               Cart
               {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                  {cartCount}
-                </span>
+                <span className="absolute -top-3 -right-3 pl-1 bg-red-600 text-white text-xs font-medium w-7 h-7 rounded-full flex items-center justify-center">
+                 {cartCount > 99 ? "99+" : cartCount}
+                   </span>
               )}
+
             </Button>
 
             {!user ? (
@@ -133,18 +134,17 @@ export default function MainHeader({ onResults }: MainHeaderProps) {
           </div>
 
           <div className="flex items-center gap-3 lg:hidden">
-            <button
-              type="button"
+            <Button
               onClick={() => router.push("/cart")}
-              className="relative flex items-center justify-center cursor-pointer bg-green-500 p-2 rounded text-white hover:bg-green-600 transition"
+              className="relative flex items-center justify-center cursor-pointer bg-green-500 px-4 py-2 rounded text-white hover:bg-green-600 transition"
             >
-              <ShoppingCart className="w-5 h-5 text-white" />
+              <ShoppingCart className="w-4 h-4 mr-2 text-white" />
               {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                  {cartCount}
-                </span>
+                <span className="absolute -top-3 -right-3 pl-1 bg-red-600 text-white text-xs font-medium w-7 h-7 rounded-full flex items-center justify-center">
+                 {cartCount > 99 ? "99+" : cartCount}
+                   </span>
               )}
-            </button>
+            </Button>
 
             {!user ? (
               <Button
@@ -157,7 +157,7 @@ export default function MainHeader({ onResults }: MainHeaderProps) {
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen((prev) => !prev)}
-                className="p-1 rounded-full border border-gray-300"
+                className="p-1 rounded-full border bg-gray-300/80 border-gray-300"
               >
                 <Avatar className="w-8 h-8">
                   <AvatarImage src={user.image} alt={user.firstName} />
