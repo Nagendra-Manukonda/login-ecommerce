@@ -272,7 +272,7 @@ export default function Products() {
       {showScrollTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-5  right-5 p-3 bg-violet-500 hover:bg-violet-600 rounded-full text-white shadow-lg transition"
+          className="fixed bottom-5 right-5 p-3 bg-violet-500 hover:bg-violet-600 rounded-full text-white shadow-lg transition"
         >
           <ArrowUp size={24} />
         </button>

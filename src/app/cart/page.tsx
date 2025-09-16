@@ -180,7 +180,8 @@ export default function CartPage() {
           >
             Add More
           </Button>
-          <Button className="bg-green-600 hover:bg-green-700 w-[27%] lg:w-fit cursor-pointer text-white">
+          <Button className="bg-green-600 hover:bg-green-700 w-[27%] lg:w-fit cursor-pointer text-white"
+          onClick={() => router.push("/checkout")}>
             Checkout
           </Button>
         </div>

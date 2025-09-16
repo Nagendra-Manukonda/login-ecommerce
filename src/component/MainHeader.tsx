@@ -26,7 +26,7 @@ export default function MainHeader({ onResults }: MainHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const items = useCartStore((state) => state.items)
-  const cartCount = items.reduce((sum, item) => sum + (item.quantity || 0), 0)
+  const cartCount = items.length
 
   useEffect(() => {
     const storedUser = getCookie("user")
@@ -72,7 +72,7 @@ export default function MainHeader({ onResults }: MainHeaderProps) {
               <ShoppingCart className="w-4 h-4 text-white" />
               Cart
               {cartCount > 0 && (
-                <span className="absolute -top-3 -right-3 pl-1 bg-red-600 text-white text-xs font-medium w-7 h-7 rounded-full flex items-center justify-center">
+                <span className="absolute -top-3 -right-3 p-1 bg-red-600 text-white text-xs font-medium w-7 h-7 rounded-full flex items-center justify-center">
                  {cartCount > 99 ? "99+" : cartCount}
                    </span>
               )}
