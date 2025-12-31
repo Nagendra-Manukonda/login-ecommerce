@@ -64,7 +64,9 @@ export default function LoginPage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-purple-800/10">
       <h1 className=" top-5 left-4 text-gray-500">
-        email :emilys password : emilyspass
+        Note: you can use demo credentials - username :{" "}
+        <span className="text-violet-500">emilys </span>password :
+        <span className="text-violet-500">emilyspass</span>
       </h1>
       <Card className="w-full max-w-md p-5 bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl shadow-xl">
         <CardHeader>
